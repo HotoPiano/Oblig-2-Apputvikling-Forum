@@ -28,27 +28,21 @@ public class MainActivity extends AppCompatActivity
 
         categoryAdapter = new CategoryAdapter(this, categories);
 
-        categoryAdapter.addAll(categories);
-
         categoryListView.setAdapter(categoryAdapter);
     }
 
     private ArrayList<Category> generateTestData()
     {
-        ArrayList<Category> categoryList = new ArrayList();
-        ArrayList<SubCategory> list1 = new ArrayList();
-        SubCategory sub1 = new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!");
-        list1.add(sub1);
-        SubCategory sub2 = new SubCategory("Cooking", "Meat, fish, vegetables... Do you have a great dinner idea, or do you need help finding one? Check in here.");
-        list1.add(sub2);
+        ArrayList<Category> categoryList = new ArrayList<Category>();
+        ArrayList<SubCategory> list1 = new ArrayList<SubCategory>();
+        list1.add(new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!"));
+        list1.add(new SubCategory("Cooking", "Meat, fish, vegetables... Do you have a great dinner idea, or do you need help finding one? Check in here."));
         Category c1 = new Category("Food", list1);
         categoryList.add(c1);
 
-        ArrayList<SubCategory> list2 = new ArrayList();
-        SubCategory sub3 = new SubCategory("Series", "Want to know which new show to watch?");
-        list2.add(sub3);
-        SubCategory sub4 = new SubCategory("Movies", "Discuss films and cinematography!");
-        list2.add(sub4);
+        ArrayList<SubCategory> list2 = new ArrayList<SubCategory>();
+        list2.add(new SubCategory("Series", "Want to know which new show to watch?"));
+        list2.add(new SubCategory("Movies", "Discuss films and cinematography!"));
         Category c2 = new Category("Media", list2);
         categoryList.add(c2);
         return categoryList;
@@ -69,5 +63,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
-
 }
