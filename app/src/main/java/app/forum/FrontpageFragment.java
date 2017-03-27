@@ -49,14 +49,28 @@ public class FrontpageFragment extends Fragment
     {
         ArrayList<Category> categoryList = new ArrayList<Category>();
         ArrayList<SubCategory> list1 = new ArrayList<SubCategory>();
-        list1.add(new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!"));
-        list1.add(new SubCategory("Cooking", "Meat, fish, vegetables... Do you have a great dinner idea, or do you need help finding one? Check in here."));
+        SubCategory subcat1 = new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!");
+
+        User user = new User("Børre Balle", "lol@troll.nub", "lettpassord");
+
+        Thread thread = new Thread(user, "Cheesecake", "I prefer cheesecake, what about you?");
+        thread.addPost(user, "Actually, I think cheesecake is the best!");
+        thread.addPost(user, "You know what, chocolate cake is pretty nice too...");
+        thread.addPost(user, "But have you tried banana-pie?");
+        thread.addPost(user, "Nevermind, you should have a cheesecake.");
+
+        subcat1.addThread(thread);
+        list1.add(subcat1);
+        SubCategory subcat2 = new SubCategory("Cooking", "Meat, fish, vegetables... Do you have a great dinner idea, or do you need help finding one? Check in here.");
+        list1.add(subcat2);
         Category c1 = new Category("Food", list1);
         categoryList.add(c1);
 
         ArrayList<SubCategory> list2 = new ArrayList<SubCategory>();
-        list2.add(new SubCategory("Series", "Want to know which new show to watch?"));
-        list2.add(new SubCategory("Movies", "Discuss films and cinematography!"));
+        SubCategory subcat3 = new SubCategory("Series", "Want to know which new show to watch?");
+        list2.add(subcat3);
+        SubCategory subcat4 = new SubCategory("Movies", "Discuss films and cinematography!");
+        list2.add(subcat4);
         Category c2 = new Category("Media", list2);
         categoryList.add(c2);
         return categoryList;

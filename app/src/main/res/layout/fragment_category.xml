@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -10,21 +10,40 @@
               android:paddingTop="@dimen/activity_vertical_margin">
 
 
-    <TextView
-        android:id="@+id/subcategory_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"/>
-
-    <TextView
-        android:id="@+id/subcategory_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"/>
-
-    <ListView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/thread_listView">
-    </ListView>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subcategory_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"/>
+
+        <TextView
+            android:id="@+id/subcategory_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thread_listView">
+        </ListView>
+
+
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/thread_newthread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@android:drawable/ic_input_add"/>
+</RelativeLayout>
