@@ -14,6 +14,8 @@ public class FrontpageFragment extends Fragment
 {
     ListView categoryListView;
     public static CategoryAdapter categoryAdapter;
+    public static ArrayList<Category> categories;
+    private final String DBCOMMAND = "?action=get_frontPage";
 
 
     public FrontpageFragment()

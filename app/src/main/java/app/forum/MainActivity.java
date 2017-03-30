@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity
     public static SubCategory currentSubCategory;
     public static User currentUser;
     public static Thread currentThread;
+    static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
