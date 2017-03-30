@@ -34,14 +34,14 @@
             android:layout_weight="0.7"
             android:textSize="18sp"
             android:hint="@string/title"
-            android:textColorHint="@color/colorAccent"/>
+            android:textColorHint="@color/colorText"/>
 
         <ImageButton
             android:id="@+id/new_threadButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@android:drawable/ic_input_add"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorGreen"/>
 
     </LinearLayout>
 

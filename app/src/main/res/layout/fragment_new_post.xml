@@ -24,8 +24,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:layout_above="@+id/new_postText" android:layout_alignParentStart="true">
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"/>
 
 
         <ImageButton

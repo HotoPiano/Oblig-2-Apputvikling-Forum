@@ -1,6 +1,7 @@
 package app.forum;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,12 @@ public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
         categoryTextView.setText(subCategories.get(position).getDescription());
 
         final LinearLayout subCategoryView = (LinearLayout)convertView.findViewById(R.id.subcategory_layout);
+
+        // Set odd even color
+        if(position % 2 == 0)
+            subCategoryView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory1));
+        else
+            subCategoryView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory2));
 
         // Subcategory onclick
         subCategoryView.setOnClickListener(new View.OnClickListener()

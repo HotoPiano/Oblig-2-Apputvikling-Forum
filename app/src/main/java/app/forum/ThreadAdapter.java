@@ -34,6 +34,11 @@ public class ThreadAdapter extends ArrayAdapter<Thread>
         threadTitleView.setText(threads.get(position).getTitle());
 
         final LinearLayout ThreadView = (LinearLayout)convertView.findViewById(R.id.thread_layout);
+        // Set odd even color
+        if(position % 2 == 0)
+            ThreadView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory1));
+        else
+            ThreadView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory2));
 
         // In subcategory, thread onclick
         ThreadView.setOnClickListener(new View.OnClickListener()
