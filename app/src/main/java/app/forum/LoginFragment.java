@@ -6,12 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LoginFragment extends Fragment
 {
 
@@ -30,9 +27,21 @@ public class LoginFragment extends Fragment
 
         EditText loginPText = (EditText)view.findViewById(R.id.login_username);
 
-
-
         EditText passwordText = (EditText)view.findViewById(R.id.login_username);
+
+        Button loginButton = (Button)view.findViewById(R.id.login_button);
+
+        loginButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if(MainActivity.currentUser != null)
+                {
+                    // TODO db check, if login correct MainActivity.CurrentUser = user that corresponds with db
+                }
+            }
+        });
 
         return view;
     }

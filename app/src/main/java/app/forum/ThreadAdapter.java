@@ -35,11 +35,15 @@ public class ThreadAdapter extends ArrayAdapter<Thread>
 
         final LinearLayout ThreadView = (LinearLayout)convertView.findViewById(R.id.thread_layout);
 
+        // In subcategory, thread onclick
         ThreadView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                // Set current thread
+                MainActivity.currentThread = threads.get(position);
+                // Swap to the fragment that shows the post in that thread
                 PostFragment fragment = new PostFragment();
                 fragment.setPost(threads.get(position));
                 MainActivity.swapFragment(fragment);
