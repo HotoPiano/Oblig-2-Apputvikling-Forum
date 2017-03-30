@@ -24,9 +24,21 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url)) {
             break;
         case "get_subCat":     //Finn og returner threads under subcat
             if (isset($_GET["subcat"]))
-                $returverdi = get_vare_fra_db($dblink, $_GET["id"]);
+                $returverdi = get_subCat($dblink, $_GET["subcat"]);
             else
                 $returverdi = "URL mangler subKategori";
+            break;
+        case "get_thread": //finn og returner posts under thread
+            if (isset($_GET["thread"]))
+                $returverdi = get_thread($dblink,$_GET["thread"]);
+            else
+                $returverdi = "URL mangler thread";
+            break;
+        case "get_post": //finn og returner spesifikk post
+            if (isset($_GET["post"]))
+                $returverdi = get_post($dblink, $_GET["post"]);
+            else
+                $returverdi = "URL mangler postId";
             break;
     }
 }
