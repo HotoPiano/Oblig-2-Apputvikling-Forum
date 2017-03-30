@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity
     public static SubCategory currentSubCategory;
     public static User currentUser;
     public static Thread currentThread;
+    public static Fragment currentFragment;
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
@@ -42,18 +43,17 @@ public class MainActivity extends AppCompatActivity
     {
         transaction = fm.beginTransaction();
         transaction.replace(R.id.main_fragment, newFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         transaction.addToBackStack(null);
-
         transaction.commit();
     }
-
 
     public static void addFragment(Fragment newFragment)
     {
         transaction = fm.beginTransaction();
         transaction.add(R.id.main_fragment, newFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         transaction.addToBackStack(null);
-
         transaction.commit();
     }
 
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity
     {
         transaction = fm.beginTransaction();
         transaction.remove(fragment);
-        transaction.addToBackStack(null);
-
         transaction.commit();
+        // Remove it from the back button list
+        fm.popBackStack();
     }
 
     @Override
@@ -124,13 +124,5 @@ public class MainActivity extends AppCompatActivity
         Category c2 = new Category("Media", list2);
         categoryList.add(c2);
         return categoryList;
-    }
-
-
-    // TODO override what happens by onback, so that addpost/addthread doesn't appear
-    @Override
-    public void onBackPressed()
-    {
-
     }
 }
