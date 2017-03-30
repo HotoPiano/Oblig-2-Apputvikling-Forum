@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity
 {
     static FragmentTransaction transaction;
     static FragmentManager fm;
+    static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
