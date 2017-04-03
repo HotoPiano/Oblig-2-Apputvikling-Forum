@@ -58,8 +58,8 @@ function get_frontPage($dblink)
         $catTab[$row] = $rad;
         $row++;
 
-        $thread = $row["name"];
-        $sql2 = "SELECT * FROM subcategory WHERE Category_name = $thread ORDER BY name";
+        $thread = $rad["name"];
+        $sql2 = "SELECT * FROM subcategory WHERE Category_name = '$thread' ORDER BY name";
         $svar2 = mysqli_query($dblink, $sql2);
 
         while ($rad2 = mysqli_fetch_assoc($svar2)) {
@@ -72,7 +72,7 @@ function get_frontPage($dblink)
 
 function get_subCat($dblink, $subcat)
 {
-    $sql = "SELECT * FROM thread WHERE Subcategory_name = $subcat ORDER BY last_post";
+    $sql = "SELECT * FROM thread WHERE Subcategory_name = '$subcat' ORDER BY last_post";
     $svar = mysqli_query($dblink,$sql);
     $tab = array();
     $row = 0;
@@ -84,7 +84,7 @@ function get_subCat($dblink, $subcat)
 }
 
 function get_thread($dblink, $thread){
-    $sql = "SELECT * FROM post WHERE Thread_name = $thread ORDER BY date";
+    $sql = "SELECT * FROM post WHERE Thread_name = '$thread' ORDER BY date";
     $svar = mysqli_query($dblink,$sql);
     $tab = array();
     $row = 0;
@@ -96,7 +96,7 @@ function get_thread($dblink, $thread){
 }
 
 function get_post($dblink, $post){
-    $sql = "SELECT * FROM post WHERE postNr = $post";
+    $sql = "SELECT * FROM post WHERE postNr = '$post'";
     $svar = mysqli_query($dblink,$sql);
     return mysqli_fetch_assoc($svar);
 }
