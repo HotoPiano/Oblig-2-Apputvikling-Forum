@@ -1,10 +1,18 @@
 package app.forum;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Thread
 {
+    final static String TABLE_NAME = "thread";
+    final static String KOL_NAME = "name";
+    final static String KOL_USER = "Users_username";
+
     User owner;
     String title;
     ArrayList<Post> postList;
@@ -31,6 +39,11 @@ public class Thread
         this.owner = owner;
         this.title = title;
         this.postList = postList;
+    }
+
+    public Thread(JSONObject jsonObject){
+        //owner = jsonObject.optString(KOL_USER);
+        title = jsonObject.optString(KOL_NAME);
     }
 
     public User getOwner()
@@ -76,5 +89,17 @@ public class Thread
         int lastPos = this.postList.size();
         post.setId(lastPos+1);
         this.postList.add(post);
+    }
+
+    public static ArrayList<Thread> makeThreadList(String data) throws JSONException{
+        ArrayList<Thread> threadList = new ArrayList<>();
+        JSONObject jsonData = new JSONObject(data);
+        JSONArray jsonArray = jsonData.optJSONArray(TABLE_NAME);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonCat = (JSONObject) jsonArray.get(i);
+            Thread cur = new Thread(jsonCat);
+            threadList.add(cur);
+        }
+        return threadList;
     }
 }

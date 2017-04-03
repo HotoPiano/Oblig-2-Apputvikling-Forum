@@ -23,7 +23,8 @@ public class Category
     }
 
     public Category(JSONObject jsonCat){
-        
+        title = jsonCat.optString(KOL_NAME_NAME);
+        subCategories = new ArrayList<>();
     }
 
     public static ArrayList<Category> makeCategoryList(String data) throws JSONException{
@@ -35,8 +36,14 @@ public class Category
             JSONObject jsonCat = (JSONObject) jsonArray.get(i);
             if (jsonCat.optString(KOL_NAME_CATEGORY) == null){
                 cur = new Category(jsonCat);
+                categoryList.add(cur);
+            }
+            else {
+                SubCategory subCategory = new SubCategory(jsonCat);
+                cur.subCategories.add(subCategory);
             }
         }
+        return categoryList;
     }
 
     public String getTitle()
