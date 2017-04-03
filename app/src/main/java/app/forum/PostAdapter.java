@@ -48,6 +48,13 @@ public class PostAdapter extends ArrayAdapter<Post>
 
         final LinearLayout ThreadView = (LinearLayout)convertView.findViewById(R.id.post_layout);
 
+        // Set odd even color
+        if(position % 2 == 0)
+            ThreadView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory1));
+        else
+            ThreadView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory2));
+
+
         // A post is clicked
         ThreadView.setOnClickListener(new View.OnClickListener()
         {

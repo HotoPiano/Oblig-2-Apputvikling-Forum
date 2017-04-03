@@ -36,14 +36,14 @@ public class PostFragment extends Fragment
 
         ImageButton newPostButton = (ImageButton)view.findViewById(R.id.post_newpost);
 
+        // Newpostbutton clicked, popup post fragment
         newPostButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                // TODO create the post fragment
-                //NewPostFragment fragment = new NewPostFragment();
-                //MainActivity.swapFragment(fragment);
+                NewPostFragment fragment = new NewPostFragment();
+                MainActivity.addFragment(fragment);
             }
         });
 

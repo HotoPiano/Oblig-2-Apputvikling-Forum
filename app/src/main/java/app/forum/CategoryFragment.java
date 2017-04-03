@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CategoryFragment extends Fragment
 {
@@ -40,9 +41,14 @@ public class CategoryFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                // TODO create the post fragment
-                //NewPostFragment fragment = new NewPostFragment();
-                //MainActivity.swapFragment(fragment);
+                if(MainActivity.currentUser != null)
+                {
+                    NewThreadFragment fragment = new NewThreadFragment();
+                    MainActivity.addFragment(fragment);
+                    MainActivity.currentSubCategory = subcategory;
+                }
+                else
+                    Toast.makeText(getContext(), "You must be logged in to post", Toast.LENGTH_SHORT).show();
             }
         });
 

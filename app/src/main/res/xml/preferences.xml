@@ -25,5 +25,4 @@
         android:padding="10dp"
         android:icon="@android:drawable/ic_menu_gallery"/>
 
-
 </PreferenceScreen>

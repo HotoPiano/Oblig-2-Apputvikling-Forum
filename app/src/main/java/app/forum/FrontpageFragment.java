@@ -44,20 +44,13 @@ public class FrontpageFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_frontpage, container, false);
         categoryListView = (ListView)view.findViewById((R.id.category_listView));
 
-        categories = new ArrayList();
-
-        // TODO fetch from database instead
-        categories.addAll(generateTestData());
-
-        categoryAdapter = new CategoryAdapter(this.getContext(), categories);
+        categoryAdapter = new CategoryAdapter(this.getContext(), MainActivity.categories);
 
         categoryListView.setAdapter(categoryAdapter);
-
 
         // Inflate the layout for this fragment
         return view;
     }
-
 
 
     private ArrayList<Category> generateTestData()
