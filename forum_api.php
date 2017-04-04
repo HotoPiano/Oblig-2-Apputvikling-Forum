@@ -2,7 +2,8 @@
 //liste over mulige hendelser
 $possible_url = array("get_frontPage", "get_subCat",
     "get_thread", "insert_thread", "update_thread", "remove_thread",
-    "get_post", "insert_post", "update_post", "remove_post");
+    "get_post", "insert_post", "update_post", "remove_post",
+    "login");
 //retur variabel
 $returverdi = "En feil oppstod.";
 
@@ -39,6 +40,12 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url)) {
                 $returverdi = get_post($dblink, $_GET["post"]);
             else
                 $returverdi = "URL mangler postId";
+            break;
+        case "insert_thread": //setter inn en thread
+            if (isset($_GET["thread"],$_GET["post"],$_GET["subcat"],$_GET["user"]))
+                $returverdi = insert_thread($dblink,$_GET["thread"],$_GET["post"],$_GET["subcat"],$_GET["user"]);
+            else
+                $returverdi = "URL mangler thread, post, subcat eller user";
             break;
     }
 }
@@ -99,6 +106,43 @@ function get_post($dblink, $post){
     $sql = "SELECT * FROM post WHERE postNr = '$post'";
     $svar = mysqli_query($dblink,$sql);
     return mysqli_fetch_assoc($svar);
+}
+
+function insert_thread($dblink,$threadName, $post, $subcat,$user){
+    $sql = "CALL addThread($threadName,$post,$subcat,$user)";
+    return mysqli_query($dblink,$sql);
+}
+
+function update_thread($dblink, $threadName, $post){
+    $sql = "CALL editThread($threadName,$post)";
+    return mysqli_query($dblink,$sql);
+}
+
+function remove_thread($dblink, $threadName){
+    $sql = "CALL deleteThread($threadName)";
+    return mysqli_query($dblink,$sql);
+}
+
+function insert_post($dblink, $post, $user, $thread){
+    $sql = "CALL addPost($post,$user,$thread)";
+    return mysqli_query($dblink,$sql);
+}
+
+function update_post($dblink, $post, $postNr){
+    $sql = "CALL editPost($post,$postNr)";
+    return mysqli_query($dblink,$sql);
+}
+
+function remove_post($dblink, $postNr){
+    $sql = "CALL deletePost($postNr)";
+    return mysqli_query($dblink,$sql);
+}
+
+function login($dblink, $user, $password){
+    $sql = "CALL getPassword($user)";
+    $svar = mysqli_query($dblink,$sql);
+    $pass = mysqli_fetch_assoc($svar);
+    return ($pass == $password);
 }
 
 ?>
