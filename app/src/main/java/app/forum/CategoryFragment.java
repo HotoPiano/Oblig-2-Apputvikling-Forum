@@ -79,10 +79,10 @@ public class CategoryFragment extends Fragment
         this.subcategory = subcategory;
     }
 
-    public void loadSubCat(){
+    public void loadSubCat(String subcat){
         if (isOnline()){
             threadLoader threadLoader = new threadLoader();
-            threadLoader.execute(MainActivity.DATABASEURL+DBCOMMAND);
+            threadLoader.execute(MainActivity.DATABASEURL+DBCOMMAND+subcat);
         }
         else {
             Toast.makeText(getActivity(), "Ingen nettverkstilgang. Kan ikke laste varer.",
