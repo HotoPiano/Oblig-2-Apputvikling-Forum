@@ -42,7 +42,7 @@ public class Thread
     }
 
     public Thread(JSONObject jsonObject){
-        //owner = jsonObject.optString(KOL_USER);
+        owner = new User(jsonObject.optString(KOL_USER));
         title = jsonObject.optString(KOL_NAME);
     }
 
