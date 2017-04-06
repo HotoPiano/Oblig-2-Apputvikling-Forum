@@ -57,4 +57,9 @@ public class SubCategory
     {
         this.threadList.add(thread);
     }
+
+    public void removeThread(Thread thread)
+    {
+        this.threadList.remove(thread);
+    }
 }

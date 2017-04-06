@@ -1,5 +1,7 @@
 package app.forum;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 
 import android.content.Intent;
@@ -18,9 +20,13 @@ public class MainActivity extends AppCompatActivity
     static FragmentManager fm;
     public static ArrayList<Category> categories;
     public static SubCategory currentSubCategory;
+    //public static Thread currentThread;
+    //public static Fragment currentFragment;
+    public static Post currentPost;
+    public static ArrayList<User> userList;
     public static User currentUser;
-    public static Thread currentThread;
-    public static Fragment currentFragment;
+    public SharedPreferences preferences;
+    public String mail;
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
@@ -30,20 +36,34 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         fm = getSupportFragmentManager();
-        swapFragment(new FrontpageFragment());
+        swapFragment(new FrontpageFragment(), true);
 
         categories = new ArrayList<Category>();
+        userList = new ArrayList<User>();
 
         // TODO fetch from database instead
         categories.addAll(generateTestData());
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mail = preferences.getString("mail", "");
+        if(!mail.isEmpty())
+        {
+            for(User u : userList)
+            {
+                if(u.getMail().equals(mail))
+                    currentUser = u;
+            }
+        }
     }
 
 
-    public static void swapFragment(Fragment newFragment)
+    public static void swapFragment(Fragment newFragment, boolean popBackStack)
     {
         transaction = fm.beginTransaction();
         transaction.replace(R.id.main_fragment, newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+        if(popBackStack)
+            fm.popBackStack();
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -101,13 +121,39 @@ public class MainActivity extends AppCompatActivity
         SubCategory subcat1 = new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!");
 
         User user = new User("Børre Balle", "lol@troll.nub", "lettpassord");
-        currentUser = user;
+        //currentUser = user;
+        userList.add(user);
 
         Thread thread = new Thread(user, "Cheesecake", "I prefer cheesecake, what about you?");
-        thread.addPost(user, "Actually, I think cheesecake is the best!");
+        for(int i=1; i<=35; i++)
+        {
+            thread.addPost(user, "" + i);
+        }
+        /*thread.addPost(user, "Actually, I think cheesecake is the best!");
         thread.addPost(user, "You know what, chocolate cake is pretty nice too...");
         thread.addPost(user, "But have you tried banana-pie?");
         thread.addPost(user, "Nevermind, you should have a cheesecake.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");
+        thread.addPost(user, "More spam.");*/
 
         subcat1.addThread(thread);
         list1.add(subcat1);

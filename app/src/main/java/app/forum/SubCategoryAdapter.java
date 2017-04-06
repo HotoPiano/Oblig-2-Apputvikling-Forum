@@ -2,6 +2,7 @@ package app.forum;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,9 @@ public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
 
         // Set odd even color
         if(position % 2 == 0)
-            subCategoryView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory1));
+            subCategoryView.setBackgroundColor(ContextCompat.getColor(c, R.color.colorSubCategory1));
         else
-            subCategoryView.setBackgroundColor(getContext().getResources().getColor(R.color.colorSubCategory2));
+            subCategoryView.setBackgroundColor(ContextCompat.getColor(c, R.color.colorSubCategory2));
 
         // Subcategory onclick
         subCategoryView.setOnClickListener(new View.OnClickListener()
@@ -51,12 +52,12 @@ public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
             @Override
             public void onClick(View view)
             {
-                // Set current subcategory
-                MainActivity.currentSubCategory = subCategories.get(position);
-                // Swap to subcategory fragment
+                // Set current subcategory, swap to subcategory fragment
                 CategoryFragment fragment = new CategoryFragment();
+                // TODO remove - //MainActivity.currentSubCategory = subCategories.get(position);
                 fragment.setSubcategory(subCategories.get(position));
-                MainActivity.swapFragment(fragment);
+                MainActivity.swapFragment(fragment, false);
+                MainActivity.currentSubCategory = subCategories.get(position);
             }
         });
 

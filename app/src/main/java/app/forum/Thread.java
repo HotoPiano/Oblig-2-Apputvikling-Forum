@@ -1,13 +1,14 @@
 package app.forum;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class Thread
 {
     User owner;
     String title;
     ArrayList<Post> postList;
+    final int POSTS_PER_PAGE = 10;
 
     public Thread(User owner, String title, Post post)
     {
@@ -26,11 +27,22 @@ public class Thread
         addPost(post);
     }
 
-    public Thread(User owner, String title, ArrayList<Post> postList)
+    public int getLastPage()
     {
-        this.owner = owner;
-        this.title = title;
-        this.postList = postList;
+        return ((this.getPostList().size()-1)/POSTS_PER_PAGE)+1;
+    }
+
+    public List<Post> getPostsAtPage(int page)
+    {
+        if(page <= getLastPage() && page > 0)
+        {
+            page--;
+            int startPosition = POSTS_PER_PAGE*page;
+            int endPosition = Math.min(POSTS_PER_PAGE*page + POSTS_PER_PAGE, this.getPostList().size());
+            return this.getPostList().subList(startPosition, endPosition);
+        }
+        else
+            return null;
     }
 
     public User getOwner()

@@ -6,29 +6,33 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewPostFragment extends Fragment
+public class EditPostFragment extends Fragment
 {
-    Thread thread;
+    Post post;
+    static EditText editText;
 
-    public NewPostFragment()
+    public EditPostFragment()
     {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        post = MainActivity.currentPost;
+
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_new_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_post, container, false);
 
-        final EditText editText = (EditText)view.findViewById(R.id.new_postText);
+        editText = (EditText)view.findViewById(R.id.edit_postText);
+        editText.setText(post.getText());
 
-        ImageButton addPost = (ImageButton)view.findViewById(R.id.new_postButton);
+        ImageButton addPost = (ImageButton)view.findViewById(R.id.edit_postButton);
 
         final Fragment fragment = this;
         // Addpost button clicked on, if theres any content - add it to the post list
@@ -45,28 +49,22 @@ public class NewPostFragment extends Fragment
                     }
                     else
                     {
-                        Post post = new Post(MainActivity.currentUser, editText.getText().toString());
-                        // Add the new post to the current thread
-                        thread.addPost(post);
+                        // TODO also edit text in the database
+                        post.setText(editText.getText().toString());
 
-                        // Remove the add post fragment
+                        // Remove the edit post fragment
                         MainActivity.removeFragment(fragment);
-
-
-                        // Swap to the fragment that shows the post in that thread
-                        PostFragment fragment = new PostFragment();
-                        fragment.setThread(thread, thread.getLastPage());
-                        MainActivity.swapFragment(fragment, false);
                     }
                 }
             }
         });
-
         return view;
     }
 
-    public void setThread(Thread thread)
+
+
+    public void setPost(Post post)
     {
-        this.thread = thread;
+        this.post = post;
     }
 }

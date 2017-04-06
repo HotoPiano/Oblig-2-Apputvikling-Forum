@@ -30,13 +30,13 @@ public class CategoryFragment extends Fragment
         TextView categoryTextView = (TextView)view.findViewById((R.id.subcategory_description));
         categoryTextView.setText(subcategory.getDescription());
 
-        ListView threadListView = (ListView)view.findViewById(R.id.thread_listView);
+        final ListView threadListView = (ListView)view.findViewById(R.id.thread_listView);
         ThreadAdapter threadAdapter = new ThreadAdapter(view.getContext(), subcategory.getThreadList());
         threadListView.setAdapter(threadAdapter);
 
-        ImageButton newPostButton = (ImageButton)view.findViewById(R.id.thread_newthread);
+        ImageButton newThreadButton = (ImageButton)view.findViewById(R.id.thread_newthread);
 
-        newPostButton.setOnClickListener(new View.OnClickListener()
+        newThreadButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -44,8 +44,9 @@ public class CategoryFragment extends Fragment
                 if(MainActivity.currentUser != null)
                 {
                     NewThreadFragment fragment = new NewThreadFragment();
+                    fragment.setSubCategory(subcategory);
                     MainActivity.addFragment(fragment);
-                    MainActivity.currentSubCategory = subcategory;
+                    //TODO remove //MainActivity.currentSubCategory = subcategory;
                 }
                 else
                     Toast.makeText(getContext(), "You must be logged in to post", Toast.LENGTH_SHORT).show();

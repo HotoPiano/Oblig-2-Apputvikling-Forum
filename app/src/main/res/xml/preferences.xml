@@ -7,20 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-                  tools:context=".MainActivity">
+                  tools:context=".SettingsActivity">
 
     <EditTextPreference
 
         android:id="@+id/change_password"
         android:icon="@android:drawable/ic_lock_lock"
-        android:key="Test"
         android:padding="10dp"
         android:title="Change password">
     </EditTextPreference>
 
     <Preference
         android:id="@+id/change_avatar"
-        android:key="Test"
         android:title="Change avatar"
         android:padding="10dp"
         android:icon="@android:drawable/ic_menu_gallery"/>

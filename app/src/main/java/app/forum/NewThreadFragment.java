@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class NewThreadFragment extends Fragment
 {
+    SubCategory subCategory;
 
 
     public NewThreadFragment()
@@ -54,20 +55,24 @@ public class NewThreadFragment extends Fragment
                         Post post = new Post(MainActivity.currentUser, editText.getText().toString());
                         Thread thread = new Thread(MainActivity.currentUser, threadTitle.getText().toString(), post);
                         // Add the new thread to the list in the currentSubCategory
-                        MainActivity.currentSubCategory.addThread(thread);
+                        subCategory.addThread(thread);
 
-                        // TODO feil?
+                        // Remove the popup addthread window
                         MainActivity.removeFragment(fragment);
 
                         // Swap to the fragment that shows the post in that thread
                         PostFragment fragment = new PostFragment();
-                        fragment.setPost(thread);
-                        MainActivity.swapFragment(fragment);
+                        fragment.setThread(thread, thread.getLastPage());
+                        MainActivity.swapFragment(fragment, false);
                     }
                 }
             }
         });
-
         return view;
+    }
+
+    public void setSubCategory(SubCategory subCategory)
+    {
+        this.subCategory = subCategory;
     }
 }
