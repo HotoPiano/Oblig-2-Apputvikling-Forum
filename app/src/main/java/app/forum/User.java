@@ -6,19 +6,26 @@ public class User
     String username;
     String mail;
     String password;
-    int image;
+    String image;
 
     public User(String username, String mail, String password)
     {
-        this(username, mail, password, 0);
+        this(username, mail, password, null);
     }
 
-    public User(String username, String mail, String password, int image)
+    public User(String username, String mail, String password, String image)
     {
         this.username = username;
         this.mail = mail;
         this.password = password;
         this.image = image;
+    }
+
+    public User(String username){
+        this.username = username;
+        this.mail = null;
+        this.password = null;
+        image = null;
     }
 
     public String getUsername()
@@ -51,12 +58,12 @@ public class User
         this.password = password;
     }
 
-    public int getImage()
+    public String getImage()
     {
         return image;
     }
 
-    public void setImage(int image)
+    public void setImage(String image)
     {
         this.image = image;
     }

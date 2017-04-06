@@ -1,5 +1,7 @@
 package app.forum;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class SubCategory
@@ -21,6 +23,12 @@ public class SubCategory
             this.threadList = threadList;
         else
             this.threadList = new ArrayList<Thread>();
+    }
+
+    public SubCategory(JSONObject jsonObject){
+        title = jsonObject.optString(Category.KOL_NAME_CATEGORY);
+        description = jsonObject.optString(Category.KOL_NAME_DESCRIPTION);
+        threadList = new ArrayList<>();
     }
 
     public String getTitle()
