@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 
+/**
+ * SettingsFragment to change user's preferences
+ */
 public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     @Override

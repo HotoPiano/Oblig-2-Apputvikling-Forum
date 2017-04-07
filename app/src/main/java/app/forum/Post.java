@@ -80,4 +80,9 @@ public class Post
     {
         return this.rowId;
     }
+
+    public int getPage()
+    {
+        return (getRowId() / Thread.POSTS_PER_PAGE) + 1;
+    }
 }

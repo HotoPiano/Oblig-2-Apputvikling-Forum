@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Category Adapter class that sets every category listview
+ */
 public class CategoryAdapter extends ArrayAdapter<Category>
 {
     private Context c;

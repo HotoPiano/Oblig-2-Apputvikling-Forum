@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
-
+/**
+ * The MainActivity that's always kept alive and loads the different fragments containing the
+ * subcategories, threads, posts from the Database.
+ */
 public class MainActivity extends AppCompatActivity
 {
     static FragmentTransaction transaction;
@@ -21,8 +23,9 @@ public class MainActivity extends AppCompatActivity
     public SharedPreferences preferences;
     public static String userName;
     public static SubCategory currentSubCategory;
-    public static Thread currentThread;
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
+    public static int page;
+    public static Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // TODO fix landscape orientation crash, onCreate - Error inflating class fragment
         // Prepare fragment switch and set first fragment to frontpageFragment
         fm = getSupportFragmentManager();
         FrontpageFragment frontpageFragment = new FrontpageFragment();
@@ -83,17 +87,5 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
     }
 }

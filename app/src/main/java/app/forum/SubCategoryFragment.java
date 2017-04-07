@@ -26,14 +26,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class CategoryFragment extends Fragment
+/**
+ * Fragment that loads a database category
+ */
+public class SubCategoryFragment extends Fragment
 {
     final static String DBCOMMAND = "?action=get_subCat&subcat=";
 
     SubCategory subcategory;
     ListView threadListView;
 
-    public CategoryFragment()
+    public SubCategoryFragment()
     {
         // Required empty public constructor
     }
@@ -49,9 +52,6 @@ public class CategoryFragment extends Fragment
         categoryTextView.setText(subcategory.getDescription());
 
         threadListView = (ListView)view.findViewById(R.id.thread_listView);
-        /*
-        ThreadAdapter threadAdapter = new ThreadAdapter(view.getContext(), subcategory.getThreadList());
-        threadListView.setAdapter(threadAdapter);*/
         loadSubCat(subcategory.getTitle());
 
         ImageButton newThreadButton = (ImageButton)view.findViewById(R.id.thread_newthread);

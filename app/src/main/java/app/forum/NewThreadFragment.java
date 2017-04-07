@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+/**
+ * Elevates the popupwidnow to create a new thread
+ */
 public class NewThreadFragment extends Fragment
 {
     SubCategory subCategory;
@@ -62,7 +65,7 @@ public class NewThreadFragment extends Fragment
                         MainActivity.removeFragment(fragment);
 
                         // Swap to the fragment that shows the post in that thread
-                        PostFragment fragment = new PostFragment();
+                        ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, thread.getLastPage());
                         MainActivity.swapFragment(fragment, false);
                     }

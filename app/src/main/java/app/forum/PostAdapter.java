@@ -2,7 +2,6 @@ package app.forum;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
+/**
+ * Adapter that holds each post in a thread
+ */
 public class PostAdapter extends ArrayAdapter<Post>
 {
     private Context c;
@@ -63,7 +64,7 @@ public class PostAdapter extends ArrayAdapter<Post>
             public void onClick(View view)
             {
                 EditPostFragment fragment = new EditPostFragment();
-                fragment.setPost(page.get(position));
+                fragment.setEdit(thread, page.get(position));
                 MainActivity.addFragment(fragment);
             }
         });
@@ -82,7 +83,7 @@ public class PostAdapter extends ArrayAdapter<Post>
                     // Refresh to previous page if last post in page was deleted
                     if(page.size() < 1)
                     {
-                        PostFragment fragment = new PostFragment();
+                        ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, thread.getLastPage());
                         MainActivity.swapFragment(fragment, true);
                     }
@@ -92,7 +93,7 @@ public class PostAdapter extends ArrayAdapter<Post>
                 {
                     // Remove thread from DB TODO Fix
                     RestDbActions.removeThread(thread.getTitle());
-                    CategoryFragment fragment = new CategoryFragment();
+                    SubCategoryFragment fragment = new SubCategoryFragment();
                     fragment.setSubcategory(MainActivity.currentSubCategory);
                     MainActivity.removeFragment(fragment);
                 }

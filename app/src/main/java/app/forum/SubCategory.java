@@ -4,6 +4,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Subcategory containing a title, description and threads
+ */
 public class SubCategory
 {
     String title;

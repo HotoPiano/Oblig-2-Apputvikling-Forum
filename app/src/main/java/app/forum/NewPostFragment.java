@@ -10,6 +10,9 @@ import android.widget.ImageButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Elevates the popupwindow to add a new post
+ */
 public class NewPostFragment extends Fragment
 {
     Thread thread;
@@ -54,7 +57,7 @@ public class NewPostFragment extends Fragment
 
 
                         // Swap to the fragment that shows the post in that thread
-                        PostFragment fragment = new PostFragment();
+                        ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, thread.getLastPage());
                         MainActivity.swapFragment(fragment, false);
                     }

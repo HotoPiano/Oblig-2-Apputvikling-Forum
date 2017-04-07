@@ -2,7 +2,6 @@ package app.forum;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * ThreadAdapter that inflates a listview in the subcategory view with all the threads of that
+ * subcategory.
+ */
 public class ThreadAdapter extends ArrayAdapter<Thread>
 {
     private Context c;
@@ -50,9 +53,8 @@ public class ThreadAdapter extends ArrayAdapter<Thread>
             public void onClick(View view)
             {
                 // Set current thread, swap to the fragment that shows the post in that thread
-                PostFragment fragment = new PostFragment();
+                ThreadFragment fragment = new ThreadFragment();
                 fragment.setThread(threads.get(position), 1);
-                MainActivity.currentThread = threads.get(position);
                 MainActivity.swapFragment(fragment, false);
             }
         });

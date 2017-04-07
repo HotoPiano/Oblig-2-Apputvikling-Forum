@@ -1,7 +1,6 @@
 package app.forum;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * SubCategoryAdapter that fills frontpage listview with each subcategory
+ */
 public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
 {
     private Context c;
@@ -53,7 +55,7 @@ public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
             public void onClick(View view)
             {
                 // Set current subcategory, swap to subcategory fragment
-                CategoryFragment fragment = new CategoryFragment();
+                SubCategoryFragment fragment = new SubCategoryFragment();
                 MainActivity.currentSubCategory = subCategories.get(position);
                 fragment.setSubcategory(subCategories.get(position));
                 MainActivity.swapFragment(fragment, false);

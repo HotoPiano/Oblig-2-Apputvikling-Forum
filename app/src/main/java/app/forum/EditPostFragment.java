@@ -3,7 +3,6 @@ package app.forum;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.List;
+
+/**
+ * Classa that loads the popup window to edit a post
+ */
 public class EditPostFragment extends Fragment
 {
     Post post;
     static EditText editText;
+    Thread thread;
+    List<Post> page;
 
     public EditPostFragment()
     {
@@ -57,8 +63,8 @@ public class EditPostFragment extends Fragment
                         MainActivity.removeFragment(fragment);
 
                         // Move back to the thread fragment
-                        PostFragment newFragment = new PostFragment();
-                        newFragment.setThread(MainActivity.currentThread, 1);
+                        ThreadFragment newFragment = new ThreadFragment();
+                        newFragment.setThread(thread, post.getPage());
                         MainActivity.swapFragment(newFragment, true);
 
                     }
@@ -70,8 +76,9 @@ public class EditPostFragment extends Fragment
 
 
 
-    public void setPost(Post post)
+    public void setEdit(Thread thread, Post post)
     {
+        this.thread = thread;
         this.post = post;
     }
 }

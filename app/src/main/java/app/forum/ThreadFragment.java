@@ -1,6 +1,5 @@
 package app.forum;
 
-
 import android.app.Activity;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -25,9 +24,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class PostFragment extends Fragment
+/**
+ * Fragment that holds the thread
+ */
+public class ThreadFragment extends Fragment
 {
     final static String DBCOMMAND = "?action=get_thread&thread=";
 
@@ -35,11 +36,10 @@ public class PostFragment extends Fragment
     int page;
     ListView threadListView;
 
-    public PostFragment()
+    public ThreadFragment()
     {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,7 +52,8 @@ public class PostFragment extends Fragment
         loadThread(thread.getTitle());
 
         TextView currentPageText = (TextView) view.findViewById(R.id.thread_currentPage);
-        currentPageText.setText("Page " + page);
+        String currentPage = getString(R.string.currentPage) + page;
+        currentPageText.setText(currentPage);
 
         Button firstPageButton = (Button)view.findViewById(R.id.thread_firstPage);
         Button lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
@@ -61,6 +62,8 @@ public class PostFragment extends Fragment
 
         TextView threadTitleView = (TextView)view.findViewById(R.id.post_title);
         threadTitleView.setText(thread.getTitle());
+
+        // Only show backwards navigation if pageNumber is higher than 1
         if(this.page > 1)
         {
             firstPageButton.setText("1");
@@ -70,7 +73,7 @@ public class PostFragment extends Fragment
                 @Override
                 public void onClick(View view)
                 {
-                    PostFragment fragment = new PostFragment();
+                    ThreadFragment fragment = new ThreadFragment();
                     fragment.setThread(thread, 1);
                     MainActivity.swapFragment(fragment, true);
                 }
@@ -85,7 +88,7 @@ public class PostFragment extends Fragment
                     if(page > 1)
                     {
                         // Swap to the fragment that shows the post in that thread
-                        PostFragment fragment = new PostFragment();
+                        ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, page-1);
                         MainActivity.swapFragment(fragment, true);
                     }
@@ -95,9 +98,11 @@ public class PostFragment extends Fragment
         else
             previousPageButton.setVisibility(View.GONE);
 
+        // Only show forward navigation UI if pageNumber is lower than maxPage
         if(this.page < this.thread.getLastPage())
         {
-            lastPageButton.setText(this.thread.getLastPage() + "");
+            String lastPage = this.thread.getLastPage() + "";
+            lastPageButton.setText(lastPage);
             // LastpageButton onclicked
             lastPageButton.setOnClickListener(new View.OnClickListener()
             {
@@ -105,7 +110,7 @@ public class PostFragment extends Fragment
                 public void onClick(View view)
                 {
                     // Swap to the fragment that shows the post in that thread
-                    PostFragment fragment = new PostFragment();
+                    ThreadFragment fragment = new ThreadFragment();
                     fragment.setThread(thread, thread.getLastPage());
                     MainActivity.swapFragment(fragment, true);
                 }
@@ -119,7 +124,7 @@ public class PostFragment extends Fragment
                     if(page < thread.getLastPage())
                     {
                         // Swap to the fragment that shows the post in that thread
-                        PostFragment fragment = new PostFragment();
+                        ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, page+1);
                         MainActivity.swapFragment(fragment, true);
                     }
@@ -147,17 +152,19 @@ public class PostFragment extends Fragment
                     Toast.makeText(getContext(), "You must be logged in to post", Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
     }
 
     public void setThread(Thread thread, int page)
     {
+        MainActivity.thread = thread;
         this.thread = thread;
+        MainActivity.page = page;
         this.page = page;
     }
 
-    public void loadThread(String thread){
+    public void loadThread(String thread)
+    {
         if (isOnline()){
             postLoader postLoader = new postLoader();
             postLoader.execute(MainActivity.DATABASEURL+DBCOMMAND+thread);
@@ -168,7 +175,8 @@ public class PostFragment extends Fragment
         }
     }
 
-    public void updateThreads(){
+    public void updateThreads()
+    {
         PostAdapter postAdapter = new PostAdapter(getContext(),thread, thread.getPostsAtPage(page));
         threadListView.setAdapter(postAdapter);
     }
@@ -222,11 +230,9 @@ public class PostFragment extends Fragment
         }
     }
 
-    // Sjekker om nettverkstilgang
     public boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
-
 }

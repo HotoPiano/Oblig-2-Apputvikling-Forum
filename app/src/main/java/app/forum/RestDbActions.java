@@ -12,7 +12,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class RestDbActions {
+/**
+ * Database class, used to load/edit/remove info
+ */
+
+public class RestDbActions
+{
 
     private static final String INSERTTHREAD = "insert_thread", UPDATETHREAD = "update_thread",
                                 REMOVETHREAD = "remove_thread", INSERTPOST = "insert_post",

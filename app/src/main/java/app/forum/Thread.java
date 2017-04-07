@@ -1,8 +1,5 @@
 package app.forum;
 
-
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +7,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Thread class that holds the title, and postlists, and the owner of the thread
+ */
 public class Thread
 {
     final static String TABLE_NAME = "thread";
@@ -21,16 +21,6 @@ public class Thread
     ArrayList<Post> postList;
     public static final int POSTS_PER_PAGE = 10;
 
-    /*
-    public Thread(User owner, String title, Post post)
-    {
-        this.owner = owner;
-        this.title = title;
-        this.postList = new ArrayList<Post>();
-        addPost(post);
-    }
-    */
-
     public Thread(String owner, String title, Post post)
     {
         this.owner = owner;
@@ -38,17 +28,6 @@ public class Thread
         this.postList = new ArrayList<Post>();
         addPost(post);
     }
-
-    /*
-    public Thread(User owner, String title, String postText)
-    {
-        this.owner = owner;
-        this.title = title;
-        this.postList = new ArrayList<Post>();
-        Post post = new Post(owner, postText);
-        addPost(post);
-    }
-*/
 
     public Thread(String owner, String title, String postText)
     {
@@ -142,21 +121,4 @@ public class Thread
         }
         return threadList;
     }
-
-
-
-    /*
-    public static ArrayList<Thread> makeThreadList(String data) throws JSONException
-    {
-        ArrayList<Thread> threadList = new ArrayList<>();
-        JSONObject jsonData = new JSONObject(data);
-        JSONArray jsonArray = jsonData.optJSONArray(TABLE_NAME);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonCat = (JSONObject) jsonArray.get(i);
-            Thread cur = new Thread(jsonCat);
-            threadList.add(cur);
-        }
-        return threadList;
-    }
-*/
 }

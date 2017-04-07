@@ -8,6 +8,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Class that holds the category
+ */
 public class Category
 {
     static final String TABLE_NAME = "category";
