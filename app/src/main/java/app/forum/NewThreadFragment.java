@@ -40,7 +40,7 @@ public class NewThreadFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if(MainActivity.currentUser != null)
+                if(!MainActivity.userName.isEmpty())
                 {
                     if(editText.getText().toString().isEmpty())
                     {
@@ -52,10 +52,11 @@ public class NewThreadFragment extends Fragment
                     }
                     else
                     {
-                        Post post = new Post(MainActivity.currentUser, editText.getText().toString());
-                        Thread thread = new Thread(MainActivity.currentUser, threadTitle.getText().toString(), post);
-                        // Add the new thread to the list in the currentSubCategory
-                        subCategory.addThread(thread);
+                        //Add to db
+                        String title = threadTitle.getText().toString();
+                        String text = editText.getText().toString();
+                        RestDbActions.insertThread(title, text, MainActivity.currentSubCategory.getTitle(), MainActivity.userName);
+                        Thread thread = new Thread(MainActivity.userName, title, text);
 
                         // Remove the popup addthread window
                         MainActivity.removeFragment(fragment);

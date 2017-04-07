@@ -37,7 +37,7 @@ public class NewPostFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if(MainActivity.currentUser != null)
+                if(!MainActivity.userName.isEmpty())
                 {
                     if(editText.getText().toString().isEmpty())
                     {
@@ -45,9 +45,9 @@ public class NewPostFragment extends Fragment
                     }
                     else
                     {
-                        Post post = new Post(MainActivity.currentUser, editText.getText().toString());
-                        // Add the new post to the current thread
-                        thread.addPost(post);
+                        String text = editText.getText().toString();
+                        // Add post to DB
+                        RestDbActions.insertPost(text, MainActivity.userName, thread.getTitle());
 
                         // Remove the add post fragment
                         MainActivity.removeFragment(fragment);

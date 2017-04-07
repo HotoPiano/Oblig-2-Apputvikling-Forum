@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class RestDbActions {
 
@@ -21,33 +22,40 @@ public class RestDbActions {
     private static AsyncRestAdapter adapter = new AsyncRestAdapter();
 
     public static void insertThread(String thread, String post, String subcat, String user){
+        adapter = new AsyncRestAdapter();
         adapter.execute(INSERTTHREAD,thread,post,subcat,user);
     }
 
     public static void updateThread(String thread, String post){
+        adapter = new AsyncRestAdapter();
         adapter.execute(UPDATETHREAD,thread,post);
     }
 
     public static void removeThread(String thread){
+        adapter = new AsyncRestAdapter();
         adapter.execute(REMOVETHREAD,thread);
     }
 
     public static void insertPost(String post, String user, String thread){
+        adapter = new AsyncRestAdapter();
         adapter.execute(INSERTPOST,post,user,thread);
     }
 
     public static void updatePost(String post, String postNr){
+        adapter = new AsyncRestAdapter();
         adapter.execute(UPDATEPOST,post,postNr);
     }
 
     public static void removePost(String postNr){
-        adapter.execute(REMOVEPOST,postNr);
+        adapter = new AsyncRestAdapter();
+        adapter.execute(REMOVEPOST, postNr);
     }
 
-    public static boolean login(String user, String password){
+    public static boolean login(String user, String password) throws ExecutionException, InterruptedException
+    {
         // Refresh so that you can call it more than once
         adapter = new AsyncRestAdapter();
-        String login = adapter.execute(LOGIN,user,password).toString();
+        String login = adapter.execute(LOGIN,user,password).get();
         return (login.equals("true"));
     }
 
@@ -68,17 +76,9 @@ public class RestDbActions {
                 case INSERTPOST: URI += "post=" + params[1] + "&user=" + params[2]
                         + "&thread=" + params[3];
                     break;
-                case UPDATEPOST:
-                {
-                    int postNr = Integer.parseInt(params[2]);
-                    URI += "post=" + params[1] + "&postNr=" + postNr;
-                }
+                case UPDATEPOST: URI += "post=" + params[1] + "&postNr=" + params[2];
                     break;
-                case REMOVEPOST:
-                {
-                    int postNr = Integer.parseInt(params[1]);
-                    URI += "postNr=" + postNr;
-                }
+                case REMOVEPOST: URI += "postNr=" + params[1];
                     break;
                 case LOGIN: URI += "user=" + params[1] + "&password=" + params[2];
                     break;
@@ -115,7 +115,6 @@ public class RestDbActions {
         @Override
         protected void onPostExecute(String s) {
             if (s.equals(LOGIN)){
-                //todo login
                 Log.v("loggedin", s);
             }
             else if (s.equals("true")){

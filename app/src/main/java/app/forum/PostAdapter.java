@@ -2,6 +2,7 @@ package app.forum;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,15 +42,16 @@ public class PostAdapter extends ArrayAdapter<Post>
 
 
         TextView userTextView = (TextView)convertView.findViewById(R.id.post_username);
-        userTextView.setText(page.get(position).getUser().getUsername());
+        userTextView.setText(page.get(position).getUser());
 
         // Sets the imageview's image to the users image id, let it be default if id is 0
         ImageView userImageView = (ImageView)convertView.findViewById(R.id.post_userimage);
+        // TODO? load image
         //if(page.get(position).getUser().getImage() != 0)
         //    userImageView.setImageResource(page.get(position).getUser().getImage());
 
         TextView idTextView = (TextView)convertView.findViewById(R.id.post_postid);
-        idTextView.setText(page.get(position).getIdTxt());
+        idTextView.setText(page.get(position).getRowId() + ".");
 
         final ImageButton editButton = (ImageButton)convertView.findViewById(R.id.post_edit);
         final ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.post_delete);
@@ -61,7 +63,7 @@ public class PostAdapter extends ArrayAdapter<Post>
             public void onClick(View view)
             {
                 EditPostFragment fragment = new EditPostFragment();
-                MainActivity.currentPost = page.get(position);
+                fragment.setPost(page.get(position));
                 MainActivity.addFragment(fragment);
             }
         });
@@ -71,33 +73,28 @@ public class PostAdapter extends ArrayAdapter<Post>
             @Override
             public void onClick(View view)
             {
-                // TODO also remove post from db
-                //thread.getPostList().remove(page.get(position));
-                PostAdapter.this.remove(page.get(position));
-                if(thread.getPostList().size() > 0)
+                if(thread.getPostList().size() > 1)
                 {
-                    // Check if it was the last post in the page, if so refresh fragment
+                    // Remove post from DB
+                    RestDbActions.removePost(page.get(position).getId() + "");
+                    PostAdapter.this.remove(page.get(position));
+
+                    // Refresh to previous page if last post in page was deleted
                     if(page.size() < 1)
                     {
                         PostFragment fragment = new PostFragment();
                         fragment.setThread(thread, thread.getLastPage());
                         MainActivity.swapFragment(fragment, true);
                     }
-
-                    // TODO Fix goback navigation ?
-                    PostAdapter.this.notifyDataSetChanged();
-                    //MainActivity.removeFragment(fragment);
-                    //MainActivity.addFragment(fragment);
                 }
                 // If only 1 post in thread, remove thread
                 else
                 {
-                    // TODO also remove thread from db
-                    MainActivity.currentSubCategory.removeThread(thread);
+                    // Remove thread from DB TODO Fix
+                    RestDbActions.removeThread(thread.getTitle());
                     CategoryFragment fragment = new CategoryFragment();
-                    fragment.subcategory = MainActivity.currentSubCategory;
-                    //MainActivity.removeFragment(fragment);
-                    MainActivity.swapFragment(fragment, true);
+                    fragment.setSubcategory(MainActivity.currentSubCategory);
+                    MainActivity.removeFragment(fragment);
                 }
             }
         });
@@ -123,11 +120,11 @@ public class PostAdapter extends ArrayAdapter<Post>
                 if(editButton.getVisibility() == View.GONE)
                 {
                     // If it's this owners post, set editbutton triggerable
-                    if(MainActivity.currentUser != null && MainActivity.currentUser.getUsername().equals(page.get(position).getUser().getUsername()))
+                    if(!MainActivity.userName.isEmpty() && MainActivity.userName.equals(page.get(position).getUser()))
                     {
                         editButton.setVisibility(View.VISIBLE);
                         // If last post, set deletebutton triggerable)
-                        if(page.get(position).getId() == thread.getPostList().size())
+                        if(page.get(position).getRowId() == thread.getPostList().size())
                         {
                             deleteButton.setVisibility(View.VISIBLE);
                         }

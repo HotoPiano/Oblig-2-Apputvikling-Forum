@@ -16,11 +16,12 @@ public class Thread
     final static String KOL_NAME = "name";
     final static String KOL_USER = "Users_username";
 
-    User owner;
+    String owner;
     String title;
     ArrayList<Post> postList;
     public static final int POSTS_PER_PAGE = 10;
 
+    /*
     public Thread(User owner, String title, Post post)
     {
         this.owner = owner;
@@ -28,8 +29,28 @@ public class Thread
         this.postList = new ArrayList<Post>();
         addPost(post);
     }
+    */
 
+    public Thread(String owner, String title, Post post)
+    {
+        this.owner = owner;
+        this.title = title;
+        this.postList = new ArrayList<Post>();
+        addPost(post);
+    }
+
+    /*
     public Thread(User owner, String title, String postText)
+    {
+        this.owner = owner;
+        this.title = title;
+        this.postList = new ArrayList<Post>();
+        Post post = new Post(owner, postText);
+        addPost(post);
+    }
+*/
+
+    public Thread(String owner, String title, String postText)
     {
         this.owner = owner;
         this.title = title;
@@ -56,12 +77,12 @@ public class Thread
             return null;
     }
 
-    public User getOwner()
+    public String getOwner()
     {
         return owner;
     }
 
-    public void setOwner(User owner)
+    public void setOwner(String owner)
     {
         this.owner = owner;
     }
@@ -93,7 +114,7 @@ public class Thread
         this.postList.add(post);
     }
 
-    public void addPost(User user, String postText)
+    public void addPost(String user, String postText)
     {
         Post post = new Post(user, postText);
         int lastPos = this.postList.size();
@@ -104,7 +125,7 @@ public class Thread
 
     public Thread(JSONObject jsonObject)
     {
-        owner = new User(jsonObject.optString(KOL_USER));
+        owner = jsonObject.optString(KOL_USER);
         title = jsonObject.optString(KOL_NAME);
         postList = new ArrayList<>();
     }

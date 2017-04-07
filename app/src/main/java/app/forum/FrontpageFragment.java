@@ -46,7 +46,6 @@ public class FrontpageFragment extends Fragment
         categoryListView = (ListView)view.findViewById((R.id.category_listView));
 
         loadFrontPage();
-        //categoryListView.setAdapter(categoryAdapter);
 
         // Inflate the layout for this fragment
         return view;

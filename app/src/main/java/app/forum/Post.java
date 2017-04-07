@@ -13,11 +13,12 @@ public class Post
     final static String KOL_USER = "User_username";
     final static String KOL_ID = "postNr";
 
-    User user;
+    String user;
     String text;
     int id;
+    int rowId;
 
-    public Post(User user, String text)
+    public Post(String user, String text)
     {
         this.user = user;
         this.text = text;
@@ -25,11 +26,10 @@ public class Post
 
     public Post(JSONObject jsonObject, int row)
     {
-        //user = jsonObject.optString(KOL_USER);
         text = jsonObject.optString(KOL_TEXT);
-        //id = jsonObject.optInt(KOL_ID);
-        id = row;
-        user = new User(jsonObject.optString(KOL_USER));
+        id = jsonObject.optInt(KOL_ID);
+        rowId = row;
+        user = jsonObject.optString(KOL_USER);
     }
 
 
@@ -46,27 +46,12 @@ public class Post
         return postList;
     }
 
-    /*
-    public static ArrayList<Post> makePostList(String data) throws JSONException
-    {
-        ArrayList<Post> postList = new ArrayList<>();
-        JSONObject jsonData = new JSONObject(data);
-        JSONArray jsonArray = jsonData.optJSONArray(TABLE_NAME);
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonCat = (JSONObject) jsonArray.get(i);
-            Post cur = new Post(jsonCat);
-            postList.add(cur);
-        }
-        return postList;
-    }
-    */
-
-    public User getUser()
+    public String getUser()
     {
         return user;
     }
 
-    public void setUser(User user)
+    public void setUser(String user)
     {
         this.user = user;
     }
@@ -91,8 +76,8 @@ public class Post
         this.id = id;
     }
 
-    public String getIdTxt()
+    public int getRowId()
     {
-        return this.id + ".";
+        return this.rowId;
     }
 }

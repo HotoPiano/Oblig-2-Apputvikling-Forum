@@ -54,10 +54,9 @@ public class SubCategoryAdapter extends ArrayAdapter<SubCategory>
             {
                 // Set current subcategory, swap to subcategory fragment
                 CategoryFragment fragment = new CategoryFragment();
-                // TODO remove - //MainActivity.currentSubCategory = subCategories.get(position);
+                MainActivity.currentSubCategory = subCategories.get(position);
                 fragment.setSubcategory(subCategories.get(position));
                 MainActivity.swapFragment(fragment, false);
-                MainActivity.currentSubCategory = subCategories.get(position);
             }
         });
 

@@ -51,8 +51,8 @@ public class ThreadAdapter extends ArrayAdapter<Thread>
             {
                 // Set current thread, swap to the fragment that shows the post in that thread
                 PostFragment fragment = new PostFragment();
-                // TODO Remove - //MainActivity.currentThread = threads.get(position);
                 fragment.setThread(threads.get(position), 1);
+                MainActivity.currentThread = threads.get(position);
                 MainActivity.swapFragment(fragment, false);
             }
         });

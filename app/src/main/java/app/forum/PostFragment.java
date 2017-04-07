@@ -48,44 +48,57 @@ public class PostFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
 
-        // TODO fix ?
-        //Thread threadPage = new Thread(thread, page);
-
-        //PostAdapter postAdapter = new PostAdapter(view.getContext(), thread, page);
-
-        //final PostAdapter postAdapter = new PostAdapter(view.getContext(), thread, thread.getPostsAtPage(page));
         threadListView = (ListView)view.findViewById(R.id.post_listView);
-        //threadListView.setAdapter(postAdapter);
         loadThread(thread.getTitle());
+
+        TextView currentPageText = (TextView) view.findViewById(R.id.thread_currentPage);
+        currentPageText.setText("Page " + page);
 
         Button firstPageButton = (Button)view.findViewById(R.id.thread_firstPage);
         Button lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
         ImageButton previousPageButton = (ImageButton)view.findViewById(R.id.thread_previousPage);
         ImageButton nextPageButton = (ImageButton)view.findViewById(R.id.thread_nextPage);
+
+        TextView threadTitleView = (TextView)view.findViewById(R.id.post_title);
+        threadTitleView.setText(thread.getTitle());
         if(this.page > 1)
         {
             firstPageButton.setText("1");
-            // Firstpage clicked
+            // Firstpage onclicked
             firstPageButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    // TODO
-                    // Swap to the fragment that shows the post in that thread
-                    //page = 1;
-                    //postAdapter.setPage(thread.getPostsAtPage(1));
                     PostFragment fragment = new PostFragment();
                     fragment.setThread(thread, 1);
                     MainActivity.swapFragment(fragment, true);
                 }
             });
+
+            // PreviousPageButton onclicked
+            previousPageButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    if(page > 1)
+                    {
+                        // Swap to the fragment that shows the post in that thread
+                        PostFragment fragment = new PostFragment();
+                        fragment.setThread(thread, page-1);
+                        MainActivity.swapFragment(fragment, true);
+                    }
+                }
+            });
         }
+        else
+            previousPageButton.setVisibility(View.GONE);
 
         if(this.page < this.thread.getLastPage())
         {
             lastPageButton.setText(this.thread.getLastPage() + "");
-            // Lastpage clicked
+            // LastpageButton onclicked
             lastPageButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -95,49 +108,26 @@ public class PostFragment extends Fragment
                     PostFragment fragment = new PostFragment();
                     fragment.setThread(thread, thread.getLastPage());
                     MainActivity.swapFragment(fragment, true);
-                    //postAdapter.setPage(thread.getPostsAtPage(thread.getLastPage()));
+                }
+            });
+            // NextPageButton onclicked
+            nextPageButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    if(page < thread.getLastPage())
+                    {
+                        // Swap to the fragment that shows the post in that thread
+                        PostFragment fragment = new PostFragment();
+                        fragment.setThread(thread, page+1);
+                        MainActivity.swapFragment(fragment, true);
+                    }
                 }
             });
         }
-
-        TextView currentPageText = (TextView) view.findViewById(R.id.thread_currentPage);
-        currentPageText.setText("Page " + page);
-
-
-        // Previouspage clicked
-        previousPageButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                if(page > 1)
-                {
-                    // Swap to the fragment that shows the post in that thread
-                    PostFragment fragment = new PostFragment();
-                    fragment.setThread(thread, page-1);
-                    MainActivity.swapFragment(fragment, true);
-                }
-            }
-        });
-        // NextPageButton clicked
-        nextPageButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                if(page < thread.getLastPage())
-                {
-                    // Swap to the fragment that shows the post in that thread
-                    PostFragment fragment = new PostFragment();
-                    fragment.setThread(thread, page+1);
-                    MainActivity.swapFragment(fragment, true);
-                }
-            }
-        });
-
-
-        TextView threadTitleView = (TextView)view.findViewById(R.id.post_title);
-        threadTitleView.setText(thread.getTitle());
+        else
+            nextPageButton.setVisibility(View.GONE);
 
         ImageButton newPostButton = (ImageButton)view.findViewById(R.id.post_newpost);
 
@@ -147,7 +137,7 @@ public class PostFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if(MainActivity.currentUser != null)
+                if(!MainActivity.userName.isEmpty())
                 {
                     NewPostFragment fragment = new NewPostFragment();
                     fragment.setThread(thread);
@@ -179,7 +169,7 @@ public class PostFragment extends Fragment
     }
 
     public void updateThreads(){
-        PostAdapter postAdapter = new PostAdapter(getContext(),thread, thread.getPostsAtPage(1));
+        PostAdapter postAdapter = new PostAdapter(getContext(),thread, thread.getPostsAtPage(page));
         threadListView.setAdapter(postAdapter);
     }
 

@@ -61,7 +61,7 @@ public class CategoryFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if(MainActivity.currentUser != null)
+                if(!MainActivity.userName.isEmpty())
                 {
                     NewThreadFragment fragment = new NewThreadFragment();
                     fragment.setSubCategory(subcategory);

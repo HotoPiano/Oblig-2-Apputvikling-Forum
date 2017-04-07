@@ -18,15 +18,10 @@ public class MainActivity extends AppCompatActivity
 {
     static FragmentTransaction transaction;
     static FragmentManager fm;
-    public static ArrayList<Category> categories;
-    public static SubCategory currentSubCategory;
-    //public static Thread currentThread;
-    //public static Fragment currentFragment;
-    public static Post currentPost;
-    public static ArrayList<User> userList;
-    public static User currentUser;
     public SharedPreferences preferences;
     public static String userName;
+    public static SubCategory currentSubCategory;
+    public static Thread currentThread;
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
@@ -34,10 +29,6 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Prepare category and user array's
-        categories = new ArrayList<Category>();
-        userList = new ArrayList<User>();
 
         // Prepare fragment switch and set first fragment to frontpageFragment
         fm = getSupportFragmentManager();
@@ -47,15 +38,6 @@ public class MainActivity extends AppCompatActivity
         // Load logged in user if sharedPreference is found
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userName = preferences.getString("userName", "");
-        /*
-        if(!userName.isEmpty())
-        {
-            for(User u : userList)
-            {
-                if(u.getUsername().equals(userName))
-                    currentUser = u;
-            }
-        }*/
     }
 
     public static void swapFragment(Fragment newFragment, boolean popBackStack)

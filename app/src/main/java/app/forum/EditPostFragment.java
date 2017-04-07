@@ -3,12 +3,12 @@ package app.forum;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditPostFragment extends Fragment
@@ -24,8 +24,6 @@ public class EditPostFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        post = MainActivity.currentPost;
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_post, container, false);
 
@@ -41,7 +39,7 @@ public class EditPostFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if(MainActivity.currentUser != null)
+                if(!MainActivity.userName.isEmpty())
                 {
                     if(editText.getText().toString().isEmpty())
                     {
@@ -49,11 +47,20 @@ public class EditPostFragment extends Fragment
                     }
                     else
                     {
-                        // TODO also edit text in the database
-                        post.setText(editText.getText().toString());
+                        String text = editText.getText().toString();
+                        post.setText(text);
+
+                        // DB edit post
+                        RestDbActions.updatePost(text, post.getId() + "");
 
                         // Remove the edit post fragment
                         MainActivity.removeFragment(fragment);
+
+                        // Move back to the thread fragment
+                        PostFragment newFragment = new PostFragment();
+                        newFragment.setThread(MainActivity.currentThread, 1);
+                        MainActivity.swapFragment(newFragment, true);
+
                     }
                 }
             }

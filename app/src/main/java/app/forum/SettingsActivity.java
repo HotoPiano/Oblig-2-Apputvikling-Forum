@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
+
 public class SettingsActivity extends Activity
 {
 
@@ -36,29 +38,36 @@ public class SettingsActivity extends Activity
                 @Override
                 public void onClick(View view)
                 {
-                    if(!loginText.getText().toString().isEmpty() && !passwordText.getText().toString().isEmpty() && RestDbActions.login(loginText.getText().toString(), passwordText.getText().toString()))
+                    if(!loginText.getText().toString().isEmpty() && !passwordText.getText().toString().isEmpty())
                     {
-                        // Save value from textfield in preferences "userName"
-                        preferences.edit().putString("userName", loginText.getText().toString()).apply();
+                        String userName = loginText.getText().toString();
+                        String password = passwordText.getText().toString();
 
-                        // Find the corresponding user from the mainactivity userlist and set currentuser to that
-                        for(User u : MainActivity.userList)
+                        Toast.makeText(getBaseContext(), userName + password, Toast.LENGTH_SHORT).show();
+                        try
                         {
-                            if(u.getMail().equals(loginText.getText().toString()))
+                            if(RestDbActions.login(userName, password))
                             {
-                                MainActivity.currentUser = u;
-                                Toast.makeText(getBaseContext(), "Logged in as " + MainActivity.currentUser.getUsername(), Toast.LENGTH_SHORT).show();
+                                // Save value from textfield in preferences "userName"
+                                preferences.edit().putString("userName", userName).apply();
 
-
+                                Toast.makeText(getBaseContext(), "Logged in as " + userName, Toast.LENGTH_SHORT).show();
+                                MainActivity.userName = userName;
                                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                                 startActivity(intent);
                             }
+                            else
+                                Toast.makeText(getBaseContext(), "Incorrect username or password.", Toast.LENGTH_SHORT).show();
+                        } catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        } catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
                         }
                     }
                     else
-                    {
-                        Toast.makeText(getBaseContext(), "Incorrect username or password.", Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(getBaseContext(), "Fill both fields.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -74,7 +83,7 @@ public class SettingsActivity extends Activity
                 public void onClick(View view)
                 {
                     preferences.edit().remove("userName").apply();
-                    MainActivity.currentUser = null;
+                    MainActivity.userName = "";
 
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
