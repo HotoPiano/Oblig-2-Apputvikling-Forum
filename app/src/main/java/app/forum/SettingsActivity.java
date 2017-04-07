@@ -18,7 +18,7 @@ public class SettingsActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String mail = preferences.getString("mail", "");
+        String mail = preferences.getString("userName", "");
 
         super.onCreate(savedInstanceState);
         if(mail.isEmpty())
@@ -36,10 +36,10 @@ public class SettingsActivity extends Activity
                 @Override
                 public void onClick(View view)
                 {
-                    // TODO db check, if login correct MainActivity.CurrentUser = user that corresponds with db
-                    if(!loginText.getText().toString().isEmpty() && !passwordText.getText().toString().isEmpty())
+                    if(!loginText.getText().toString().isEmpty() && !passwordText.getText().toString().isEmpty() && RestDbActions.login(loginText.getText().toString(), passwordText.getText().toString()))
                     {
-                        preferences.edit().putString("mail", loginText.getText().toString()).apply();
+                        // Save value from textfield in preferences "userName"
+                        preferences.edit().putString("userName", loginText.getText().toString()).apply();
 
                         // Find the corresponding user from the mainactivity userlist and set currentuser to that
                         for(User u : MainActivity.userList)
@@ -73,7 +73,7 @@ public class SettingsActivity extends Activity
                 @Override
                 public void onClick(View view)
                 {
-                    preferences.edit().remove("mail").apply();
+                    preferences.edit().remove("userName").apply();
                     MainActivity.currentUser = null;
 
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);

@@ -33,6 +33,7 @@ public class PostFragment extends Fragment
 
     Thread thread;
     int page;
+    ListView threadListView;
 
     public PostFragment()
     {
@@ -51,14 +52,16 @@ public class PostFragment extends Fragment
         //Thread threadPage = new Thread(thread, page);
 
         //PostAdapter postAdapter = new PostAdapter(view.getContext(), thread, page);
-        final PostAdapter postAdapter = new PostAdapter(view.getContext(), thread, thread.getPostsAtPage(page));
 
-        final ListView threadListView = (ListView)view.findViewById(R.id.post_listView);
-        threadListView.setAdapter(postAdapter);
+        //final PostAdapter postAdapter = new PostAdapter(view.getContext(), thread, thread.getPostsAtPage(page));
+        threadListView = (ListView)view.findViewById(R.id.post_listView);
+        //threadListView.setAdapter(postAdapter);
+        loadThread(thread.getTitle());
 
-
-        Toast.makeText(this.getContext(), thread.getLastPage() + " " + thread.getPostList().get(thread.getPostList().size()-1).getId(), Toast.LENGTH_SHORT).show();
         Button firstPageButton = (Button)view.findViewById(R.id.thread_firstPage);
+        Button lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
+        ImageButton previousPageButton = (ImageButton)view.findViewById(R.id.thread_previousPage);
+        ImageButton nextPageButton = (ImageButton)view.findViewById(R.id.thread_nextPage);
         if(this.page > 1)
         {
             firstPageButton.setText("1");
@@ -79,7 +82,6 @@ public class PostFragment extends Fragment
             });
         }
 
-        Button lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
         if(this.page < this.thread.getLastPage())
         {
             lastPageButton.setText(this.thread.getLastPage() + "");
@@ -101,7 +103,6 @@ public class PostFragment extends Fragment
         TextView currentPageText = (TextView) view.findViewById(R.id.thread_currentPage);
         currentPageText.setText("Page " + page);
 
-        ImageButton previousPageButton = (ImageButton)view.findViewById(R.id.thread_previousPage);
 
         // Previouspage clicked
         previousPageButton.setOnClickListener(new View.OnClickListener()
@@ -118,7 +119,6 @@ public class PostFragment extends Fragment
                 }
             }
         });
-        ImageButton nextPageButton = (ImageButton)view.findViewById(R.id.thread_nextPage);
         // NextPageButton clicked
         nextPageButton.setOnClickListener(new View.OnClickListener()
         {
@@ -179,7 +179,7 @@ public class PostFragment extends Fragment
     }
 
     public void updateThreads(){
-        PostAdapter postAdapter = new PostAdapter(getContext(),thread);
+        PostAdapter postAdapter = new PostAdapter(getContext(),thread, thread.getPostsAtPage(1));
         threadListView.setAdapter(postAdapter);
     }
 
@@ -203,7 +203,7 @@ public class PostFragment extends Fragment
                         sb = sb.append(responseString);
                     }
                     String postData = sb.toString();
-                    thread.postList = Post.makePostList(postData);
+                    thread.postList = Post.makePostList(postData, page);
                     return 0l;
                 }
                 else {

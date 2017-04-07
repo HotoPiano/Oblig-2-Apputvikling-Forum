@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<User> userList;
     public static User currentUser;
     public SharedPreferences preferences;
-    public String mail;
+    public static String userName;
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
 
     @Override
@@ -35,33 +35,35 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fm = getSupportFragmentManager();
-        swapFragment(new FrontpageFragment(), true);
-
+        // Prepare category and user array's
         categories = new ArrayList<Category>();
         userList = new ArrayList<User>();
 
-        // TODO fetch from database instead
-        categories.addAll(generateTestData());
+        // Prepare fragment switch and set first fragment to frontpageFragment
+        fm = getSupportFragmentManager();
+        FrontpageFragment frontpageFragment = new FrontpageFragment();
+        swapFragment(frontpageFragment, false);
 
+        // Load logged in user if sharedPreference is found
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mail = preferences.getString("mail", "");
-        if(!mail.isEmpty())
+        userName = preferences.getString("userName", "");
+        /*
+        if(!userName.isEmpty())
         {
             for(User u : userList)
             {
-                if(u.getMail().equals(mail))
+                if(u.getUsername().equals(userName))
                     currentUser = u;
             }
-        }
+        }*/
     }
-
 
     public static void swapFragment(Fragment newFragment, boolean popBackStack)
     {
         transaction = fm.beginTransaction();
         transaction.replace(R.id.main_fragment, newFragment);
         transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
+        // Remove it from the back button list if parameter is true
         if(popBackStack)
             fm.popBackStack();
         transaction.addToBackStack(null);
@@ -111,64 +113,5 @@ public class MainActivity extends AppCompatActivity
     public void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-    }
-
-
-    private ArrayList<Category> generateTestData()
-    {
-        ArrayList<Category> categoryList = new ArrayList<Category>();
-        ArrayList<SubCategory> list1 = new ArrayList<SubCategory>();
-        SubCategory subcat1 = new SubCategory("Baking", "Discuss recipes and content about bread, pies, cakes, deserts... Everything that has to do with baking!");
-
-        User user = new User("Børre Balle", "lol@troll.nub", "lettpassord");
-        //currentUser = user;
-        userList.add(user);
-
-        Thread thread = new Thread(user, "Cheesecake", "I prefer cheesecake, what about you?");
-        for(int i=1; i<=35; i++)
-        {
-            thread.addPost(user, "" + i);
-        }
-        /*thread.addPost(user, "Actually, I think cheesecake is the best!");
-        thread.addPost(user, "You know what, chocolate cake is pretty nice too...");
-        thread.addPost(user, "But have you tried banana-pie?");
-        thread.addPost(user, "Nevermind, you should have a cheesecake.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");
-        thread.addPost(user, "More spam.");*/
-
-        subcat1.addThread(thread);
-        list1.add(subcat1);
-        SubCategory subcat2 = new SubCategory("Cooking", "Meat, fish, vegetables... Do you have a great dinner idea, or do you need help finding one? Check in here.");
-        list1.add(subcat2);
-        Category c1 = new Category("Food", list1);
-        categoryList.add(c1);
-
-        ArrayList<SubCategory> list2 = new ArrayList<SubCategory>();
-        SubCategory subcat3 = new SubCategory("Series", "Want to know which new show to watch?");
-        list2.add(subcat3);
-        SubCategory subcat4 = new SubCategory("Movies", "Discuss films and cinematography!");
-        list2.add(subcat4);
-        Category c2 = new Category("Media", list2);
-        categoryList.add(c2);
-        return categoryList;
     }
 }

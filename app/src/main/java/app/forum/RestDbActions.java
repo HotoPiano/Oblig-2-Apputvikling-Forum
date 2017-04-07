@@ -1,7 +1,7 @@
 package app.forum;
 
 import android.os.AsyncTask;
-import android.widget.Switch;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +10,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-/**
- * Created by hakom_000 on 05.04.2017.
- */
 
 public class RestDbActions {
 
@@ -48,8 +44,11 @@ public class RestDbActions {
         adapter.execute(REMOVEPOST,postNr);
     }
 
-    public static void login(String user, String password){
-        adapter.execute(LOGIN,user,password);
+    public static boolean login(String user, String password){
+        // Refresh so that you can call it more than once
+        adapter = new AsyncRestAdapter();
+        String login = adapter.execute(LOGIN,user,password).toString();
+        return (login.equals("true"));
     }
 
     private static class AsyncRestAdapter extends AsyncTask<String, Void, String>{
@@ -69,9 +68,17 @@ public class RestDbActions {
                 case INSERTPOST: URI += "post=" + params[1] + "&user=" + params[2]
                         + "&thread=" + params[3];
                     break;
-                case UPDATEPOST: URI += "post=" + params[1] + "&postNr=" + params[2];
+                case UPDATEPOST:
+                {
+                    int postNr = Integer.parseInt(params[2]);
+                    URI += "post=" + params[1] + "&postNr=" + postNr;
+                }
                     break;
-                case REMOVEPOST: URI += "postNr=" + params[1];
+                case REMOVEPOST:
+                {
+                    int postNr = Integer.parseInt(params[1]);
+                    URI += "postNr=" + postNr;
+                }
                     break;
                 case LOGIN: URI += "user=" + params[1] + "&password=" + params[2];
                     break;
@@ -109,15 +116,19 @@ public class RestDbActions {
         protected void onPostExecute(String s) {
             if (s.equals(LOGIN)){
                 //todo login
+                Log.v("loggedin", s);
             }
             else if (s.equals("true")){
                 //everything fine
+                Log.v("true", s);
             }
             else if (s.equals("false")){
                 //something went wrong
+                Log.v("false", s);
             }
             else {
                 //something went wrong
+                Log.v("something went wrong", s);
             }
         }
     }

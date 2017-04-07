@@ -23,13 +23,32 @@ public class Post
         this.text = text;
     }
 
-    public Post(JSONObject jsonObject){
+    public Post(JSONObject jsonObject, int row)
+    {
         //user = jsonObject.optString(KOL_USER);
         text = jsonObject.optString(KOL_TEXT);
-        id = jsonObject.optInt(KOL_ID);
+        //id = jsonObject.optInt(KOL_ID);
+        id = row;
+        user = new User(jsonObject.optString(KOL_USER));
     }
 
-    public static ArrayList<Post> makePostList(String data) throws JSONException{
+
+    public static ArrayList<Post> makePostList(String data, int page) throws JSONException
+    {
+        ArrayList<Post> postList = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(data);
+        for (int i = 0; i < jsonArray.length(); i++)
+        {
+            JSONObject jsonCat = (JSONObject) jsonArray.get(i);
+            Post cur = new Post(jsonCat, ((i+1) + ((page-1) * Thread.POSTS_PER_PAGE)));
+            postList.add(cur);
+        }
+        return postList;
+    }
+
+    /*
+    public static ArrayList<Post> makePostList(String data) throws JSONException
+    {
         ArrayList<Post> postList = new ArrayList<>();
         JSONObject jsonData = new JSONObject(data);
         JSONArray jsonArray = jsonData.optJSONArray(TABLE_NAME);
@@ -40,6 +59,7 @@ public class Post
         }
         return postList;
     }
+    */
 
     public User getUser()
     {

@@ -1,5 +1,7 @@
 package app.forum;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,22 +25,32 @@ public class Category
     }
 
     public Category(JSONObject jsonCat){
-        title = jsonCat.optString(KOL_NAME_NAME);
+        title = jsonCat.optString(KOL_NAME_CATEGORY);
         subCategories = new ArrayList<>();
     }
 
-    public static ArrayList<Category> makeCategoryList(String data) throws JSONException{
+    public static ArrayList<Category> makeCategoryList(String data) throws JSONException
+    {
         ArrayList<Category> categoryList = new ArrayList<>();
-        JSONObject jsonData = new JSONObject(data);
-        JSONArray jsonArray = jsonData.optJSONArray(TABLE_NAME);
+        JSONArray jsonArray = new JSONArray(data);
         Category cur = null;
-        for (int i = 0; i < jsonArray.length(); i++){
+        Log.d("a", jsonArray.length() + "");
+        for (int i = 0; i < jsonArray.length(); i++)
+        {
             JSONObject jsonCat = (JSONObject) jsonArray.get(i);
-            if (jsonCat.optString(KOL_NAME_CATEGORY) == null){
-                cur = new Category(jsonCat);
-                categoryList.add(cur);
+
+            if (jsonCat.optString(KOL_NAME_CATEGORY).equals(""))
+            {
+                if(cur != null)
+                {
+                    categoryList.add(cur);
+                    cur = null;
+                }
             }
-            else {
+            else
+            {
+                if(cur == null)
+                    cur = new Category(jsonCat);
                 SubCategory subCategory = new SubCategory(jsonCat);
                 cur.subCategories.add(subCategory);
             }

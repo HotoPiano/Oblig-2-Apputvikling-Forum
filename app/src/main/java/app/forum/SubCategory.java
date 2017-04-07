@@ -25,8 +25,9 @@ public class SubCategory
             this.threadList = new ArrayList<Thread>();
     }
 
-    public SubCategory(JSONObject jsonObject){
-        title = jsonObject.optString(Category.KOL_NAME_CATEGORY);
+    public SubCategory(JSONObject jsonObject)
+    {
+        title = jsonObject.optString(Category.KOL_NAME_NAME);
         description = jsonObject.optString(Category.KOL_NAME_DESCRIPTION);
         threadList = new ArrayList<>();
     }

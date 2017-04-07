@@ -45,8 +45,8 @@ public class PostAdapter extends ArrayAdapter<Post>
 
         // Sets the imageview's image to the users image id, let it be default if id is 0
         ImageView userImageView = (ImageView)convertView.findViewById(R.id.post_userimage);
-        if(page.get(position).getUser().getImage() != 0)
-            userImageView.setImageResource(page.get(position).getUser().getImage());
+        //if(page.get(position).getUser().getImage() != 0)
+        //    userImageView.setImageResource(page.get(position).getUser().getImage());
 
         TextView idTextView = (TextView)convertView.findViewById(R.id.post_postid);
         idTextView.setText(page.get(position).getIdTxt());
@@ -74,7 +74,6 @@ public class PostAdapter extends ArrayAdapter<Post>
                 // TODO also remove post from db
                 //thread.getPostList().remove(page.get(position));
                 PostAdapter.this.remove(page.get(position));
-                Toast.makeText(getContext(), thread.getPostList().size() +"", Toast.LENGTH_LONG).show();
                 if(thread.getPostList().size() > 0)
                 {
                     // Check if it was the last post in the page, if so refresh fragment
@@ -86,7 +85,6 @@ public class PostAdapter extends ArrayAdapter<Post>
                     }
 
                     // TODO Fix goback navigation ?
-
                     PostAdapter.this.notifyDataSetChanged();
                     //MainActivity.removeFragment(fragment);
                     //MainActivity.addFragment(fragment);
