@@ -33,26 +33,18 @@ public class Post
     }
 
 
-    public static ArrayList<Post> makePostList(String data) throws JSONException
+    public static ArrayList<Post> makePostList(String data, Post firstPost) throws JSONException
     {
         ArrayList<Post> postList = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(data);
+        postList.add(firstPost);
         for (int i = 0; i < jsonArray.length(); i++)
         {
             JSONObject jsonCat = (JSONObject) jsonArray.get(i);
-            Post cur = new Post(jsonCat, i);
+            Post cur = new Post(jsonCat, (i+1));
             postList.add(cur);
         }
         return postList;
-    }
-
-    public static ArrayList<Post> makePage(ArrayList<Post> posts, int pageNr){
-        ArrayList<Post> page = new ArrayList<>();
-        page.add(posts.get(0));
-        for (int i = 0; i<10;i++){
-            page.add(posts.get(i+pageNr*10));
-        }
-        return page;
     }
 
     public String getUser()

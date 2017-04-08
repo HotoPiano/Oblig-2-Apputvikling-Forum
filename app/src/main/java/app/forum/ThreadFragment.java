@@ -201,7 +201,7 @@ public class ThreadFragment extends Fragment
                         sb = sb.append(responseString);
                     }
                     String postData = sb.toString();
-                    thread.postList = Post.makePostList(postData);
+                    thread.postList = Post.makePostList(postData, thread.postList.get(0));
                     return 0l;
                 }
                 else {
