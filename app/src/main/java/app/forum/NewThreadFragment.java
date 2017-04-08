@@ -60,6 +60,8 @@ public class NewThreadFragment extends Fragment
                         String text = editText.getText().toString();
                         RestDbActions.insertThread(title, text, MainActivity.currentSubCategory.getTitle(), MainActivity.userName);
                         Thread thread = new Thread(MainActivity.userName, title, text);
+                        //RestDbActions.insertPost(text, MainActivity.userName, title); TODO delete
+                        //thread.addPost(MainActivity.userName, text); TODO delete
 
                         // Remove the popup addthread window
                         MainActivity.removeFragment(fragment);

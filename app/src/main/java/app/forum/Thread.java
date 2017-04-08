@@ -107,6 +107,7 @@ public class Thread
         owner = jsonObject.optString(KOL_USER);
         title = jsonObject.optString(KOL_NAME);
         postList = new ArrayList<>();
+        postList.add(new Post(owner, title));
     }
 
     public static ArrayList<Thread> makeThreadList(String data) throws JSONException

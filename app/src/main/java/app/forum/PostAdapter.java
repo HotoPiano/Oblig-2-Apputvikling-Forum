@@ -52,7 +52,8 @@ public class PostAdapter extends ArrayAdapter<Post>
         //    userImageView.setImageResource(page.get(position).getUser().getImage());
 
         TextView idTextView = (TextView)convertView.findViewById(R.id.post_postid);
-        idTextView.setText(page.get(position).getRowId() + ".");
+        String rowId = page.get(position).getRowId() + ".";
+        idTextView.setText(rowId);
 
         final ImageButton editButton = (ImageButton)convertView.findViewById(R.id.post_edit);
         final ImageButton deleteButton = (ImageButton)convertView.findViewById(R.id.post_delete);
