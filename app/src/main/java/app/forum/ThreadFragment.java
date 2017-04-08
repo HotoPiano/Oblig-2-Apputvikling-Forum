@@ -64,8 +64,8 @@ public class ThreadFragment extends Fragment
         threadTitleView.setText(thread.getTitle());
 
         // Only show backwards navigation if pageNumber is higher than 1
-        if(this.page > 1)
-        {
+        /*if(this.page > 1)  // TODO UNCOMMENT WHEN FIXED NAVIGATION
+        {*/
             firstPageButton.setText("1");
             // Firstpage onclicked
             firstPageButton.setOnClickListener(new View.OnClickListener()
@@ -94,13 +94,13 @@ public class ThreadFragment extends Fragment
                     }
                 }
             });
-        }
+        /*}
         else
-            previousPageButton.setVisibility(View.GONE);
+            previousPageButton.setVisibility(View.GONE);*/ // TODO UNCOMMENT
 
         // Only show forward navigation UI if pageNumber is lower than maxPage
-        if(this.page < this.thread.getLastPage())
-        {
+        /*if(this.page < this.thread.getLastPage())  // TODO UNCOMMENT
+        {*/
             String lastPage = this.thread.getLastPage() + "";
             lastPageButton.setText(lastPage);
             // LastpageButton onclicked
@@ -130,9 +130,9 @@ public class ThreadFragment extends Fragment
                     }
                 }
             });
-        }
+        /*}  // TODO UNCOMMENT
         else
-            nextPageButton.setVisibility(View.GONE);
+            nextPageButton.setVisibility(View.GONE);*/
 
         ImageButton newPostButton = (ImageButton)view.findViewById(R.id.post_newpost);
 
