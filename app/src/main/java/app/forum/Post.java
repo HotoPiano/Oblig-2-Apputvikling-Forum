@@ -24,6 +24,13 @@ public class Post
         this.text = text;
     }
 
+    public Post(String user, String text, int row)
+    {
+        this.user = user;
+        this.text = text;
+        rowId = row;
+    }
+
     public Post(JSONObject jsonObject, int row)
     {
         text = jsonObject.optString(KOL_TEXT);
@@ -41,7 +48,7 @@ public class Post
         for (int i = 0; i < jsonArray.length(); i++)
         {
             JSONObject jsonCat = (JSONObject) jsonArray.get(i);
-            Post cur = new Post(jsonCat, (i+1));
+            Post cur = new Post(jsonCat, (i+2));
             postList.add(cur);
         }
         return postList;

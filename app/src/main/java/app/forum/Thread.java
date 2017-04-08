@@ -15,6 +15,7 @@ public class Thread
     final static String TABLE_NAME = "thread";
     final static String KOL_NAME = "name";
     final static String KOL_USER = "Users_username";
+    final static String KOL_TEXT = "post";
 
     String owner;
     String title;
@@ -107,7 +108,8 @@ public class Thread
         owner = jsonObject.optString(KOL_USER);
         title = jsonObject.optString(KOL_NAME);
         postList = new ArrayList<>();
-        postList.add(new Post(owner, title));
+        String text = jsonObject.optString(KOL_TEXT);
+        postList.add(new Post(owner, text, 1));
     }
 
     public static ArrayList<Thread> makeThreadList(String data) throws JSONException
