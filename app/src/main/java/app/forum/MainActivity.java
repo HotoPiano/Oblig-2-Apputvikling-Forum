@@ -35,22 +35,19 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         fm = getSupportFragmentManager();
 
-        if (savedInstanceState == null) {
+        // Load frontpagefragment by default, else load saved fragment (rotate)
+        if (savedInstanceState == null)
+        {
             FrontpageFragment frontpageFragment = new FrontpageFragment();
             addFragment(frontpageFragment);
         }
-        else {
+        else
+        {
             String className = savedInstanceState.getString("fragment");
-            Fragment fragment = fm.findFragmentByTag(className);
+            fm.findFragmentByTag(className);
         }
 
-
         setContentView(R.layout.activity_main);
-
-        // TODO fix landscape orientation crash, onCreate - Error inflating class fragment
-        // Prepare fragment switch and set first fragment to frontpageFragment
-
-
 
         // Load logged in user if sharedPreference is found
         preferences = PreferenceManager.getDefaultSharedPreferences(this);

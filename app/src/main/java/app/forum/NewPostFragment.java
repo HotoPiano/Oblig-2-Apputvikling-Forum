@@ -59,7 +59,7 @@ public class NewPostFragment extends Fragment
                         // Swap to the fragment that shows the post in that thread
                         ThreadFragment fragment = new ThreadFragment();
                         fragment.setThread(thread, thread.getLastPage());
-                        MainActivity.swapFragment(fragment, false);
+                        MainActivity.swapFragment(fragment, true);
                     }
                 }
             }

@@ -35,7 +35,7 @@ public class ThreadFragment extends Fragment
     Thread thread;
     int page;
     ListView threadListView;
-
+    Button lastPageButton;
     public ThreadFragment()
     {
         // Required empty public constructor
@@ -65,7 +65,7 @@ public class ThreadFragment extends Fragment
         currentPageText.setText(currentPage);
 
         Button firstPageButton = (Button)view.findViewById(R.id.thread_firstPage);
-        Button lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
+        lastPageButton = (Button)view.findViewById(R.id.thread_lastPage);
         ImageButton previousPageButton = (ImageButton)view.findViewById(R.id.thread_previousPage);
         ImageButton nextPageButton = (ImageButton)view.findViewById(R.id.thread_nextPage);
 
@@ -73,8 +73,6 @@ public class ThreadFragment extends Fragment
         threadTitleView.setText(thread.getTitle());
 
         // Only show backwards navigation if pageNumber is higher than 1
-        /*if(this.page > 1)  // TODO UNCOMMENT WHEN FIXED NAVIGATION
-        {*/
             firstPageButton.setText("1");
             // Firstpage onclicked
             firstPageButton.setOnClickListener(new View.OnClickListener()
@@ -103,13 +101,8 @@ public class ThreadFragment extends Fragment
                     }
                 }
             });
-        /*}
-        else
-            previousPageButton.setVisibility(View.GONE);*/ // TODO UNCOMMENT
 
         // Only show forward navigation UI if pageNumber is lower than maxPage
-        /*if(this.page < this.thread.getLastPage())  // TODO UNCOMMENT
-        {*/
             String lastPage = this.thread.getLastPage() + "";
             lastPageButton.setText(lastPage);
             // LastpageButton onclicked
@@ -139,9 +132,6 @@ public class ThreadFragment extends Fragment
                     }
                 }
             });
-        /*}  // TODO UNCOMMENT
-        else
-            nextPageButton.setVisibility(View.GONE);*/
 
         ImageButton newPostButton = (ImageButton)view.findViewById(R.id.post_newpost);
 
@@ -188,6 +178,8 @@ public class ThreadFragment extends Fragment
     {
         PostAdapter postAdapter = new PostAdapter(getContext(),thread, thread.getPostsAtPage(page));
         threadListView.setAdapter(postAdapter);
+        String lastPage = this.thread.getLastPage() + "";
+        lastPageButton.setText(lastPage);
     }
 
     private class postLoader extends AsyncTask<String,Void,Long> {
