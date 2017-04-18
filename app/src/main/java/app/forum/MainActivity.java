@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -31,11 +32,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        fm = getSupportFragmentManager();
+        Empty fragment = new Empty();
+        addFragment(fragment);
+
         setContentView(R.layout.activity_main);
 
         // TODO fix landscape orientation crash, onCreate - Error inflating class fragment
         // Prepare fragment switch and set first fragment to frontpageFragment
-        fm = getSupportFragmentManager();
+
         FrontpageFragment frontpageFragment = new FrontpageFragment();
         swapFragment(frontpageFragment, false);
 
@@ -87,5 +92,17 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }

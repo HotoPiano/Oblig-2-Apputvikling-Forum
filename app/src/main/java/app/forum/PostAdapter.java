@@ -92,7 +92,7 @@ public class PostAdapter extends ArrayAdapter<Post>
                 // If only 1 post in thread, remove thread
                 else
                 {
-                    // Remove thread from DB TODO Fix
+                    // Remove thread from DB
                     RestDbActions.removeThread(thread.getTitle());
                     SubCategoryFragment fragment = new SubCategoryFragment();
                     fragment.setSubcategory(MainActivity.currentSubCategory);
