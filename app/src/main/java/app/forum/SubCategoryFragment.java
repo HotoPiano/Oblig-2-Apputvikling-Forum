@@ -43,6 +43,12 @@ public class SubCategoryFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        if (savedInstanceState != null){
+            String title = savedInstanceState.getString("title");
+            String description = savedInstanceState.getString("description");
+            subcategory = new SubCategory(title,description);
+        }
+
         View view = inflater.inflate(R.layout.fragment_category, container, false);
 
         TextView categoryTitleView = (TextView)view.findViewById(R.id.subcategory_title);
@@ -166,4 +172,15 @@ public class SubCategoryFragment extends Fragment
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (subcategory != null){
+            outState.putString("title",subcategory.title);
+            outState.putString("description",subcategory.description);
+        }
+        else outState.putString("title", "go back once more");
+        super.onSaveInstanceState(outState);
+    }
+
 }

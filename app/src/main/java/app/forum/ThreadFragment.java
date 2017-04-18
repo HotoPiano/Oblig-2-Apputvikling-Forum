@@ -44,6 +44,15 @@ public class ThreadFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
+        if (savedInstanceState != null){
+            page = savedInstanceState.getInt("page");
+            String title = savedInstanceState.getString("title");
+            String owner = savedInstanceState.getString("owner");
+            String post = savedInstanceState.getString("post");
+            thread = new Thread(owner,title,post);
+        }
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
@@ -234,5 +243,14 @@ public class ThreadFragment extends Fragment
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("page", page);
+        outState.putString("title",thread.title);
+        outState.putString("owner",thread.owner);
+        outState.putString("post",thread.postList.get(0).text);
+        super.onSaveInstanceState(outState);
     }
 }

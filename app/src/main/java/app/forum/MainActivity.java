@@ -27,22 +27,30 @@ public class MainActivity extends AppCompatActivity
     static final String DATABASEURL = "http://itfag.usn.no/~142840/forum_api.php";
     public static int page;
     public static Thread thread;
+    private static String currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         fm = getSupportFragmentManager();
-        Empty fragment = new Empty();
-        addFragment(fragment);
+
+        if (savedInstanceState == null) {
+            FrontpageFragment frontpageFragment = new FrontpageFragment();
+            addFragment(frontpageFragment);
+        }
+        else {
+            String className = savedInstanceState.getString("fragment");
+            Fragment fragment = fm.findFragmentByTag(className);
+        }
+
 
         setContentView(R.layout.activity_main);
 
         // TODO fix landscape orientation crash, onCreate - Error inflating class fragment
         // Prepare fragment switch and set first fragment to frontpageFragment
 
-        FrontpageFragment frontpageFragment = new FrontpageFragment();
-        swapFragment(frontpageFragment, false);
+
 
         // Load logged in user if sharedPreference is found
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -52,19 +60,20 @@ public class MainActivity extends AppCompatActivity
     public static void swapFragment(Fragment newFragment, boolean popBackStack)
     {
         transaction = fm.beginTransaction();
-        transaction.replace(R.id.main_fragment, newFragment);
+        transaction.replace(R.id.fragment_container, newFragment, newFragment.getClass().getName());
         transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         // Remove it from the back button list if parameter is true
         if(popBackStack)
             fm.popBackStack();
         transaction.addToBackStack(null);
         transaction.commit();
+        currentFragment = newFragment.getClass().getName();
     }
 
     public static void addFragment(Fragment newFragment)
     {
         transaction = fm.beginTransaction();
-        transaction.add(R.id.main_fragment, newFragment);
+        transaction.add(R.id.fragment_container, newFragment, newFragment.getClass().getName());
         transaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -97,6 +106,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
+        outState.putString("fragment",currentFragment);
         super.onSaveInstanceState(outState);
     }
 
